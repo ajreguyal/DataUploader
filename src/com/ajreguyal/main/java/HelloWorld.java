@@ -1,13 +1,14 @@
 package com.ajreguyal.main.java;
 
-import org.joda.time.LocalTime;
 
 public class HelloWorld {
-  public static void main(String[] args) {
-    LocalTime currentTime = new LocalTime();
-    System.out.println("The current local time is: " + currentTime);
+	private String message;
 
-    Greeter greeter = new Greeter();
-    System.out.println(greeter.sayHello());
-  }
+	public void setMessage(String message){
+		this.message  = message;
+	}
+
+	public void getMessage(){
+		System.out.println("Your Message : " + message);
+	}
 }

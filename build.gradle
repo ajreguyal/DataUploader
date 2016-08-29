@@ -1,24 +1,55 @@
 apply plugin: 'java'
+apply plugin: 'eclipse'
 apply plugin: 'application'
 
-mainClassName = 'com.ajreguyal.main.java.HelloWorld'
-
+mainClassName = 'com.ajreguyal.main.java.MainApp'
+sourceSets.main.java.srcDirs = ['src']
+	
+// tag::repositories[]
 repositories {
     mavenCentral()
 }
+// end::repositories[]
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-dependencies {
-    compile "joda-time:joda-time:2.2"
-}
-
+// tag::jar[]
 jar {
     baseName = 'gs-gradle'
     version =  '0.1.0'
 }
+// end::jar[]
 
+// tag::dependencies[]
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+	compile group: 'org.springframework', name: 'spring-aop', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-aspects', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-beans', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-context', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-core', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-expression', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-instrument', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-instrument-tomcat', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-jms', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-messaging', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-orm', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-oxm', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-test', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-tx', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-web', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-webmvc-portlet', version: '4.3.2.RELEASE'
+	compile group: 'org.springframework', name: 'spring-websocket', version: '4.3.2.RELEASE'
+	compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+	compile group: 'junit', name: 'junit', version: '4.12'
+}
+// end::dependencies[]
+
+// tag::wrapper[]
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
 }
+// end::wrapper[]
