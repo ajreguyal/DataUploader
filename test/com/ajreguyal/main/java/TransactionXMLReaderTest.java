@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.junit.AfterClass;
@@ -101,12 +102,35 @@ public class TransactionXMLReaderTest {
 		
 		readerFile.setConnection(backend.getConnection());
 		readerFile.read();
+		
+		assertEquals(getTableContentCount(backend.getConnection(), readerFile.getTableName()), 2);
+		
+
+		com.ajreguyal.reader.TransactionXMLReader readerFile2 = new TransactionXMLReader(validXMLFile);
+		readerFile.setConnection(backend.getConnection());
+		readerFile.read();
+		
+		assertEquals(getTableContentCount(backend.getConnection(), readerFile.getTableName()), 2);
+	}
+
+	private int getTableContentCount(Connection connection, String tableName) throws SQLException {
+		int count = 0;
+		try (PreparedStatement pSt = connection.prepareStatement("SELECT count(id) AS total FROM " + tableName)){
+			ResultSet rs = pSt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString("total"));
+            }
+            pSt.close();
+        } catch(Exception e) {
+            throw new java.sql.SQLException("Error getting table data count " + e.toString());
+        }
+		return count;
 	}
 
 	private void deleteTable(Connection connection, String tableName) throws SQLException {
-		System.out.println("DROP " + tableName);
 		try (PreparedStatement pSt = connection.prepareStatement("DROP TABLE " + tableName)){
             pSt.execute();
+            pSt.close();
         } catch(Exception e) {
             throw new java.sql.SQLException("Error creating table. " + e.toString());
         }

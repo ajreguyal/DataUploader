@@ -95,7 +95,6 @@ public class TransactionBuilder {
 	}
 
 	public void clear() {
-		this.date = null;
 		this.time = null;
 		this.buyer = null;
 		this.seller = null;

@@ -79,10 +79,8 @@ public class TransactionXMLReader {
             initializeDataValues(builder, transaction);
             try {
             	Transaction transactionObject = builder.create();
-            	
             	if (transactionObject != null) {
                     try {
-            			System.out.println("no connection");
                     	addDataToDB(transactionObject, sqlForInsertingDataToTable);
                     } catch (java.sql.SQLIntegrityConstraintViolationException ex) {
                     	
@@ -126,6 +124,7 @@ public class TransactionXMLReader {
 	private void createTable(String tablename) throws SQLException {
 		try (PreparedStatement pSt = connection.prepareStatement(getSqlCommandForCreateTable(tablename))){
             pSt.execute();
+            pSt.close();
         } catch(Exception e) {
             throw new java.sql.SQLException("Error creating table. " + e.toString());
         }
