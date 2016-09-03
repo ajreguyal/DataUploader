@@ -1,0 +1,20 @@
+CREATE TABLE `stock`.`transaction2go` (
+  `time` INT ZEROFILL UNSIGNED NOT NULL,
+  `buyer` VARCHAR(20) NULL,
+  `seller` VARCHAR(20) NULL,
+  `price` FLOAT NULL,
+  `volume` INT NULL,
+  PRIMARY KEY (`time`),
+  UNIQUE INDEX `time_UNIQUE` (`time` ASC));
+
+  
+  CREATE TABLE `stock`.`cscds` (
+  `id` DOUBLE UNSIGNED ZEROFILL NOT NULL,
+  `date` VARCHAR(10) NULL,
+  `time` VARCHAR(15) NULL,
+  `buyer` VARCHAR(10) NULL,
+  `seller` VARCHAR(10) NULL,
+  `price` FLOAT NULL,
+  `volume` DOUBLE UNSIGNED NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
