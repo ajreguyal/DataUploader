@@ -65,8 +65,8 @@ public class DBBackend {
         String  url;
         Boolean ready;
         
-        url = "jdbc:mysql://" + address + ":" + port.toString() + "?useSSL=false";
-        System.out.println(url);
+        url = "jdbc:mysql://" + address + ":" + port.toString() + "?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+//        System.out.println(url);
         //url = "jdbc:mariadb://" + address + ":" + port.toString();
         try {
             //Class.forName("org.h2.Driver");

@@ -7,11 +7,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MainApp {
 	public static void main(String[] args) {
 		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(HelloWorldConfig.class);
+				new AnnotationConfigApplicationContext(DataUploaderConfig.class);
 
-		HelloWorld helloWorld = ctx.getBean(HelloWorld.class);
-
-		helloWorld.setMessage("Hello World!");
-		helloWorld.getMessage();
+		DataUploader uploader = ctx.getBean(DataUploader.class);
+//		uploader.uploadFile(args[0]);
+//		helloWorld.setMessage("Hello World!");
+//		helloWorld.getMessage();
 	}
 }

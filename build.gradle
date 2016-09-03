@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'application'
 
-mainClassName = 'com.ajreguyal.main.java.MainApp'
+mainClassName = 'com.ajreguyal.main.java.DataUploader'
 sourceSets.main.java.srcDirs = ['src']
 	
 // tag::repositories[]
@@ -13,8 +13,12 @@ repositories {
 
 // tag::jar[]
 jar {
-    baseName = 'gs-gradle'
-    version =  '0.1.0'
+  	manifest {
+  		attributes 'Main-Class' : 'com.ajreguyal.main.java.DataUploader'
+  	}
+    baseName = 'DataUploader'
+    version =  '1.0.1'
+    
 }
 // end::jar[]
 
@@ -59,5 +63,21 @@ dependencies {
 // tag::wrapper[]
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
+}
+
+apply plugin: 'gradle-one-jar'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+    }
+}
+
+task buildMainJar(type: OneJar) {
+    mainClass = 'com.ajreguyal.main.java.DataUploader'
+    useStable = false
 }
 // end::wrapper[]

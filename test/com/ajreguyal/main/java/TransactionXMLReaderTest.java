@@ -72,6 +72,19 @@ public class TransactionXMLReaderTest {
 	public static void clean() {
 		invalidXMLFile.delete();
 		validXMLFile.delete();
+		
+		
+		try {
+			com.ajreguyal.reader.TransactionXMLReader readerFile = new TransactionXMLReader(validXMLFile);
+
+			backend = new DBBackend();
+			backend.connect();
+			
+			deleteTable(backend.getConnection(), readerFile.getTableName());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test (expected = FileNotFoundException.class)
@@ -127,7 +140,7 @@ public class TransactionXMLReaderTest {
 		return count;
 	}
 
-	private void deleteTable(Connection connection, String tableName) throws SQLException {
+	private static void deleteTable(Connection connection, String tableName) throws SQLException {
 		try (PreparedStatement pSt = connection.prepareStatement("DROP TABLE " + tableName)){
             pSt.execute();
             pSt.close();

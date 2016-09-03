@@ -1,0 +1,4 @@
+gradle build
+gradle buildMainJar
+D:\Dropbox\Github\DataUploader\build\libs>java -jar DataUploader-standalone.jar
+
