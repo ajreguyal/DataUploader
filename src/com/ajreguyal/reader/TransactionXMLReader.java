@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import com.ajreguyal.builder.TransactionBuilder;
 import com.ajreguyal.dbbackend.DBBackend;
 import com.ajreguyal.model.Transaction;
+import com.ajreguyal.time.TimeFrame;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -72,16 +73,20 @@ public class TransactionXMLReader {
 		+ " (id, date, time, buyer, seller, price, volume) VALUES (?, ?, ?, ?, ?, ?, ?);";
 		
 		TransactionBuilder builder = new TransactionBuilder();
+		TimeFrame timeFrameManipulator = new TimeFrame();
 		String date = (rootNode.getAttribute("date").getValue());
         builder.setDate(date);
         List list = rootNode.getChildren();
+        int dataAdded = 0;
         for (Object transaction: list) {
             initializeDataValues(builder, transaction);
             try {
             	Transaction transactionObject = builder.create();
+            	transactionObject.setTimeFrameManipulator(timeFrameManipulator);
             	if (transactionObject != null) {
                     try {
                     	addDataToDB(transactionObject, sqlForInsertingDataToTable);
+                    	dataAdded++;
                     } catch (java.sql.SQLIntegrityConstraintViolationException ex) {
                     	
                     } catch(Exception e) {
@@ -94,10 +99,11 @@ public class TransactionXMLReader {
 			}
             builder.clear();
         }
+        System.out.println(dataAdded + " data added to " + tablename);
 	}
 
 	public String getTableName() {
-		return "`stock`.`transaction" + name + "`";
+		return "transaction_" + name;
 	}
 
 	private void initializeDataValues(TransactionBuilder builder, Object transaction) {
@@ -172,7 +178,19 @@ public class TransactionXMLReader {
     private static final Logger log = LoggerFactory.getLogger(TransactionXMLReader.class);
     
 	public static void main(String[] args) {
-//		new TransactionXMLReader(new File("D:\\Sync\\Sync\\Stock\\Data\\Transaction\\2016-09-01\\2GO.xml"));
+		try {
+			DBBackend backend = new DBBackend();
+			backend.connect();
+			TransactionXMLReader reader = new TransactionXMLReader(new File("D:\\Sync\\Sync\\Stock\\Data\\Transaction\\2016-10-02\\MED.xml"));
+			reader.setConnection(backend.getConnection());
+			reader.read();
+//			TransactionXMLReader reader2 = new TransactionXMLReader(new File("D:\\Sync\\Sync\\Stock\\Data\\Transaction\\2016-09-02\\MED.xml"));
+//			reader2.setConnection(backend.getConnection());
+//			reader2.read();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		new TransactionXMLReader(new File("D:\\Sync\\Sync\\Stock\\Data\\Transaction\\2016-09-02\\2GO.xml"));
 		
 	}

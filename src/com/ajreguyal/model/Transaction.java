@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.ajreguyal.time.TimeFrame;
+
 public class Transaction {
 	private String time;
 	private String date;
@@ -13,6 +15,7 @@ public class Transaction {
 	private long volume;
 	private float price;
 	private long timeId;
+	private TimeFrame timeFrameManipulator;
 	
 	public String getTime() {
 		return time;
@@ -64,24 +67,11 @@ public class Transaction {
 	}
 	
 	public long getTimeId() {
-		return createTimeId(date, time);
+		return timeFrameManipulator.createTimeId(date, time);
 	}
 	
 	public void setTimeId(long timeId) {
 		this.timeId = timeId;
-	}
-
-	public long createTimeId(String date, String time) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");
-		Date d;
-		try {
-			d = dateFormat.parse(date + " " + time);
-			return d.getTime();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
 	}
 	
 	@Override
@@ -92,5 +82,14 @@ public class Transaction {
 				.append(". Price = ").append(this.price)
 				.append(".Volume = ").append(this.volume)
 				.append("\n").toString();
+	}
+	
+	public static void main(String args[]) {
+//		System.out.println(createTimeId("2016/09/01", "9:30:00 AM"));
+//		System.out.println(createTimeId("2016/09/01", "9:31:00 AM"));
+	}
+
+	public void setTimeFrameManipulator(TimeFrame timeFrameManipulator) {
+		this.timeFrameManipulator = timeFrameManipulator;
 	}
 }
